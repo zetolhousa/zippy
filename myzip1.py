@@ -9,21 +9,27 @@ from zipfile import ZipFile
 import os.path
 import argparse
 
-# function taking in input file to zip it into output file
 def zipping(in_file, out_file):
+    '''Compresses files into ZIP form.
+
+    in_file ==> the input file to be compressed
+    out_file ==> the output zip file
+
+    '''
     with ZipFile(out_file, 'w') as myzip:
-        myzip.write(in_file)
-        print("done")
+        for i in in_file:
+            myzip.write(i)
+            print("done")
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", "--force", help="force action", action="store_true")
-    parser.add_argument("Zipfile", help="path of the output zip file")
-    parser.add_argument("Source", help="path(s) of the input files")
+    parser.add_argument('oput', help="path of the output zip file")
+    parser.add_argument('iput', nargs='+', help="one or more input files")
     args = parser.parse_args()
 
-    ip = args.Source
-    op = args.Zipfile
+    ip = args.iput
+    op = args.oput
 
     if args.force:
         zipping(ip, op)
